@@ -1,4 +1,7 @@
 
+import java.util.Objects;
+
+
 
 
 
@@ -16,7 +19,7 @@ public class Debug {
     {
         System.out.printf("%04d ",offset); // printing the index of opcode
          //now printing the line
-        if(offset > 0 && chunk.lines.get(offset) == chunk.lines.get(offset-1))
+        if(offset > 0 && Objects.equals(chunk.lines.get(offset), chunk.lines.get(offset-1)))
         {
             System.out.printf("   |");
         }
