@@ -8,7 +8,7 @@ public class VM {
     static final boolean DEBUG_RACE_EXECUTION = true;
     Stack<Object> stack = new Stack<>(); 
 
-    public Interpret interpret(Chunk chunk)
+    public InterpretResult interpret(Chunk chunk)
     {
         resetStack();
         this.chunk = chunk; // chunk is stored in vm
@@ -20,7 +20,7 @@ public class VM {
         stack.clear();
     }
     //most important this is running my bytecode
-    Interpret run()
+    InterpretResult run()
     {
         Debug d = new Debug();
         while(true)
@@ -45,7 +45,7 @@ public class VM {
                 case OP_RETURN -> {
                     System.out.printf("%.4f",stack.pop());
                     System.out.println();
-                    return Interpret.INTERPRET_OK;
+                    return InterpretResult.INTERPRET_OK;
                 }
                 case OP_CONSTANT -> {
                     Object constant = READ_CONSTANT();

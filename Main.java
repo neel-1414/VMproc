@@ -1,35 +1,45 @@
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+
 public class Main{
-    public static void main(String[] args) {
-        Chunk c = new Chunk();
+    public static void main(String[] args) throws IOException{
+        //the args are when we run main java Main (abc)  
+        if(args.length == 0 ){
+            repl();
+        }
+        else if(args.length == 1){
+             runfile(args[0]);
+        }
+        else {
+            System.err.println("To many arugmenets passed");
+            System.exit(64);
+        }
+    }
+    private final static void repl() throws IOException
+    {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        while (true) {
+            System.out.print("> ");
+            String line = reader.readLine();
+            if(line == null) break;
 
-        //passing the instruction and the line number 
-        int index = c.addconstant(1.2);
-        c.writeCode(Chunk.OpCode.OP_CONSTANT, 1);
-        c.writeByte( (byte)index,2 );
+            InterpretResult result = interpret(line);
+            
+        }
+    }
+    private static void runfile(String path) throws IOException
+    {
+        String source = Files.readString(Path.of(path)); // reads the complete file passed and decodes to string  UTF-8 by default
+        InterpretResult result  = interpret(line);
+        if(result == InterpretResult.INTERPRET_COMPILE_ERROR) System.exit(65);
+        if(result == InterpretResult.INTERPRET_RUNTIME_ERROR) System.exit(70);
+    }
+    {
 
-        index = c.addconstant(3.4);
-        c.writeCode(Chunk.OpCode.OP_CONSTANT, 3);
-        c.writeByte((byte)index, 4);
-
-        c.writeCode(Chunk.OpCode.OP_ADD, 5);
-
-        index = c.addconstant(5.6);
-        c.writeCode(Chunk.OpCode.OP_CONSTANT, 6);
-        c.writeByte((byte)index, 7);
-
-        c.writeCode(Chunk.OpCode.OP_DIVIDE, 8);
-
-        c.writeCode(Chunk.OpCode.OP_NEGATE, 9);
-
-        c.writeCode(Chunk.OpCode.OP_RETURN, index);
-
-
-        // Debug debug = new Debug();
-        VM vm = new VM();
-        Interpret p =  vm.interpret(c);
-        System.out.println();
-        System.out.println(p);
-        // debug.disassemblerChunk(c, "Test 1");
     }
 }
