@@ -8,12 +8,11 @@ public class VM {
     static final boolean DEBUG_RACE_EXECUTION = true;
     Stack<Object> stack = new Stack<>(); 
 
-    public InterpretResult interpret(Chunk chunk)
+    public InterpretResult interpret(String source)
     {
-        resetStack();
-        this.chunk = chunk; // chunk is stored in vm
-        this.ip = 0;// instruction pointer
-        return run();
+        Compiler c = new Compiler();
+        c.compile(source);
+        return InterpretResult.INTERPRET_OK;
     }
     void resetStack() // top empty the stack completely
     {
