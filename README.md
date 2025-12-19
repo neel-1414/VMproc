@@ -1,4 +1,4 @@
-# VMproc
+# NVM
 # Custom Virtual Machine (VM)
 
 A learning-focused, stack-based Virtual Machine implemented from scratch to understand how low-level execution models work.  
