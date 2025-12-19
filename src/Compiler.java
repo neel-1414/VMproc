@@ -1,12 +1,11 @@
 public class Compiler {
     public void compile(String source)
     {
-        Scan sc = new Scan();
-        sc.initScan(source);
+        Scanner sc = new Scanner(source);
         int line =-1;
         while(true)
         {
-            Token token = scanToken();
+            Token token = sc.scanToken();
             if(token.line != line)
             {
                 System.out.printf("%04d", token.line);
@@ -16,6 +15,8 @@ public class Compiler {
                 System.out.println("   |");
             }
             System.out.println(token);
+
+            if(token.type == TokenType.TOKEN_EOF) break;
 
         }
     }
