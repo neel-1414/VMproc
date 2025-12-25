@@ -10,9 +10,16 @@ public class VM {
 
     public InterpretResult interpret(String source)
     {
+        Chunk chunk = new Chunk();
         Compiler c = new Compiler();
-        c.compile(source);
-        return InterpretResult.INTERPRET_OK;
+        if(!c.compile(source, chunk))
+        {
+            return InterpretResult.INTERPRET_COMPILE_ERROR;
+        }
+        this.chunk = chunk;
+        this.ip = 0;
+        InterpretResult result = run();
+        return result;
     }
     void resetStack() // top empty the stack completely
     {
